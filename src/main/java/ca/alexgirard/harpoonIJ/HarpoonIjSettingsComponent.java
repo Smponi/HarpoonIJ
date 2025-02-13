@@ -20,6 +20,7 @@ public class HarpoonIjSettingsComponent {
     private final JBIntSpinner dialogWidth = new JBIntSpinner(800,1,5000, 10);
     private final JBIntSpinner dialogHeight = new JBIntSpinner(400,1,5000,10);
     private final JBIntSpinner dialogFontSize = new JBIntSpinner(20,1,100);
+    private final JBIntSpinner pathLevelsToShow = new JBIntSpinner(0,0,20,1);
     private final JBCheckBox  cbEnterItemSelect = new JBCheckBox();
 
     public HarpoonIjSettingsComponent() {
@@ -27,6 +28,7 @@ public class HarpoonIjSettingsComponent {
                 .addLabeledComponent(new JBLabel("Popup width"), dialogWidth, 1, false)
                 .addLabeledComponent(new JBLabel("Popup height"), dialogHeight, 1, false)
                 .addLabeledComponent(new JBLabel("Popup font size"), dialogFontSize, 1, false)
+                .addLabeledComponent(new JBLabel("Path levels to show (0 = full path)"), pathLevelsToShow, 1, false)
                 .addLabeledComponent(new JBLabel("Map enter to select item in dialog"), cbEnterItemSelect, 1, false)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
@@ -79,6 +81,14 @@ public class HarpoonIjSettingsComponent {
     public void setRemapEnter(boolean remap) {
         cbEnterItemSelect.setSelected(remap);
 
+    }
+
+    public int getPathLevelsToShow() {
+        return pathLevelsToShow.getNumber();
+    }
+
+    public void setPathLevelsToShow(int levels) {
+        pathLevelsToShow.setNumber(levels);
     }
 
 }

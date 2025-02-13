@@ -24,6 +24,7 @@ public class AppSettingsState implements PersistentStateComponent<AppSettingsSta
     public int dialogWidth = 800;
     public int dialogFontSize = 20;
     public boolean enterRemap = true;
+    public int pathLevelsToShow = 0; // 0 means show full path
 
     public static AppSettingsState getInstance() {
         return ApplicationManager.getApplication().getService(AppSettingsState.class);

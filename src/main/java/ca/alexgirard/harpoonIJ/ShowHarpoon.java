@@ -31,17 +31,40 @@ public class ShowHarpoon extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-
         var stringBuilder = new StringBuilder();
         var fileStrings = HarpoonState.GetFiles(e.getProject());
         var project = e.getProject();
         var projectPath = project == null ? "" : project.getBasePath();
         projectPath = projectPath == null ? "" : projectPath;
+        var settings = AppSettingsState.getInstance();
 
         for (var vFile : fileStrings) {
-            var path = vFile == null ? "" : vFile.getCanonicalPath();
-            path = path == null ? "" : path;
-            stringBuilder.append(path.replace(projectPath, "...")).append("\n");
+            if (vFile == null) {
+                stringBuilder.append("\n");
+                continue;
+            }
+            
+            var path = vFile.getCanonicalPath();
+            if (path == null) {
+                stringBuilder.append("\n");
+                continue;
+            }
+            
+            path = path.replace(projectPath, "...");
+            
+            // Wenn pathLevelsToShow > 0, kürze den Pfad auf die angegebene Anzahl von Ebenen
+            if (settings.pathLevelsToShow > 0) {
+                String[] parts = path.split("/");
+                if (parts.length > settings.pathLevelsToShow) {
+                    StringBuilder shortenedPath = new StringBuilder("...");
+                    for (int i = parts.length - settings.pathLevelsToShow; i < parts.length; i++) {
+                        shortenedPath.append("/").append(parts[i]);
+                    }
+                    path = shortenedPath.toString();
+                }
+            }
+            
+            stringBuilder.append(path).append("\n");
         }
         
         var text = stringBuilder.toString().trim();

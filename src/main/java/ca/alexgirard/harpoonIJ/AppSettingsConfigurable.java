@@ -37,10 +37,10 @@ public class AppSettingsConfigurable implements Configurable {
     public boolean isModified() {
         AppSettingsState settings = AppSettingsState.getInstance();
         boolean modified = harpoonSettings.getDialogHeight() != settings.dialogHeight;
-        //TODO cleanup in kotlin rewrite
         modified |= harpoonSettings.getDialogWidth() != settings.dialogWidth;
         modified |= harpoonSettings.getDialogFontSize() != settings.dialogFontSize;
         modified |= harpoonSettings.getRemapEnter() != settings.enterRemap;
+        modified |= harpoonSettings.getPathLevelsToShow() != settings.pathLevelsToShow;
         return modified;
     }
 
@@ -51,6 +51,7 @@ public class AppSettingsConfigurable implements Configurable {
         settings.dialogHeight = harpoonSettings.getDialogHeight();
         settings.dialogFontSize = harpoonSettings.getDialogFontSize();
         settings.enterRemap = harpoonSettings.getRemapEnter();
+        settings.pathLevelsToShow = harpoonSettings.getPathLevelsToShow();
     }
 
     @Override
@@ -60,6 +61,7 @@ public class AppSettingsConfigurable implements Configurable {
         harpoonSettings.setDialogHeight(settings.dialogHeight);
         harpoonSettings.setDialogFontSize(settings.dialogFontSize);
         harpoonSettings.setRemapEnter(settings.enterRemap);
+        harpoonSettings.setPathLevelsToShow(settings.pathLevelsToShow);
     }
 
     @Override
