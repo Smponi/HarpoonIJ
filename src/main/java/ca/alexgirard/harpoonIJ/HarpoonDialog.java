@@ -17,6 +17,8 @@ import javax.swing.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 
 public class HarpoonDialog extends DialogWrapper {
 
@@ -25,9 +27,9 @@ public class HarpoonDialog extends DialogWrapper {
     public int SelectedIndex = -1;
     private static boolean enterRemapped = false;
     private boolean normalModeForcedAlready = false;
+    private final Project project;
 
     public void Next() {
-
         var editor = editorTextField.getEditor();
         if (editor != null) {
             editor.getCaretModel().moveCaretRelatively(0, 1, false, false, false);
@@ -35,7 +37,6 @@ public class HarpoonDialog extends DialogWrapper {
     }
 
     public void Previous() {
-
         var editor = editorTextField.getEditor();
         if (editor != null) {
             editor.getCaretModel().moveCaretRelatively(0, -1, false, false, false);
@@ -43,7 +44,6 @@ public class HarpoonDialog extends DialogWrapper {
     }
 
     public void Ok() {
-
         var editor = editorTextField.getEditor();
         if (editor != null) {
             SelectedIndex = editor.getCaretModel().getLogicalPosition().line;
@@ -51,8 +51,9 @@ public class HarpoonDialog extends DialogWrapper {
         doOKAction();
     }
 
-    protected HarpoonDialog(String inputText) {
+    protected HarpoonDialog(String inputText, Project project) {
         super(true);
+        this.project = project;
         AppSettingsState settings = AppSettingsState.getInstance();
         setSize(settings.dialogWidth, settings.dialogHeight);
         setTitle("Harpoon");
@@ -65,10 +66,8 @@ public class HarpoonDialog extends DialogWrapper {
         init();
     }
 
-    //TODO move this to app startup or something 
     private void setEnterRemap(AppSettingsState settings) {
         if (enterRemapped || !settings.enterRemap) return;
-        // i had 2 <cr> here before and i can't remember why
         var keys = VimInjectorKt.injector.getParser().parseKeys(":action SelectHarpoonItem<cr>");
         var keyGroup = VimInjectorKt.injector.getKeyGroup();
         keyGroup.putKeyMapping(MappingMode.NVO,
@@ -84,17 +83,20 @@ public class HarpoonDialog extends DialogWrapper {
 
     @Override
     protected @Nullable JComponent createCenterPanel() {
-        AppSettingsState appSettings = AppSettingsState.getInstance();
+        setupEditorTextField();
+        return editorTextField;
+    }
+
+    private void setupEditorTextField() {
         editorTextField = new EditorTextField(text);
         editorTextField.setOneLineMode(false);
         editorTextField.addSettingsProvider(editor -> {
-            editor.setFontSize(appSettings.dialogFontSize);
+            editor.setFontSize(AppSettingsState.getInstance().dialogFontSize);
             editor.setInsertMode(true);
             editor.getCaretModel().moveToLogicalPosition(new LogicalPosition(0, 0));
             var settings = editor.getSettings();
             settings.setLineNumbersShown(true);
         });
-
 
         editorTextField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
@@ -114,9 +116,7 @@ public class HarpoonDialog extends DialogWrapper {
             public void focusLost(FocusEvent e) {
             }
         });
-        return editorTextField;
     }
-
 
     @Override
     protected JComponent createSouthPanel() {

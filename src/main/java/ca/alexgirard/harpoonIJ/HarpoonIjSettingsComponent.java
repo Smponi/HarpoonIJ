@@ -21,7 +21,7 @@ public class HarpoonIjSettingsComponent {
     private final JBIntSpinner dialogHeight = new JBIntSpinner(400,1,5000,10);
     private final JBIntSpinner dialogFontSize = new JBIntSpinner(20,1,100);
     private final JBIntSpinner pathLevelsToShow = new JBIntSpinner(0,0,20,1);
-    private final JBCheckBox  cbEnterItemSelect = new JBCheckBox();
+    private final JBCheckBox cbEnterItemSelect = new JBCheckBox();
 
     public HarpoonIjSettingsComponent() {
         myMainPanel = FormBuilder.createFormBuilder()

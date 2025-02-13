@@ -4,6 +4,7 @@ import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.fileEditor.FileEditorManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 public class HarpoonState {
     private static final Map<String, List<VirtualFile>> FilesMap = new HashMap<>();
     private static final String ListPersistenceKey = "HarpoonJumpList";
+    private static VirtualFile lastAccessedFile = null;  // Track last accessed file globally
 
     public static void SetItem(VirtualFile file, int index, Project project) {
         FillLists(project);
@@ -85,6 +87,26 @@ public class HarpoonState {
                 index += 1;
             }
         }
+    }
+
+    /**
+     * Opens a file and tracks it as the last accessed Harpoon file
+     * @param file File to open
+     * @param project Current project
+     */
+    public static void OpenFile(VirtualFile file, Project project) {
+        if (file != null && file.isValid()) {
+            lastAccessedFile = file;
+            FileEditorManager.getInstance(project).openFile(file, true);
+        }
+    }
+
+    /**
+     * Gets the last accessed Harpoon file
+     * @return The last file that was opened through Harpoon, or null if none
+     */
+    public static VirtualFile GetLastAccessedFile() {
+        return lastAccessedFile;
     }
 }
 

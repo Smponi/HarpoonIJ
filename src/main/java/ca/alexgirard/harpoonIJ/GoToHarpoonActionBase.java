@@ -17,13 +17,12 @@ public abstract class GoToHarpoonActionBase extends AnAction {
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         var project = e.getProject();
-
         if (project == null) return;
+
         VirtualFile vf = HarpoonState.GetItem(getIndex(), project);
-        if (vf == null || !vf.isValid() )
+        if (vf == null || !vf.isValid())
             return;
         
-        var fileManager = FileEditorManager.getInstance(project);
-        fileManager.openFile(vf, true);
+        HarpoonState.OpenFile(vf, project);  // Use centralized file opening
     }
 }

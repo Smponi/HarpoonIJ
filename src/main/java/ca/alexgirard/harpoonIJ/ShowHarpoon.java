@@ -68,7 +68,7 @@ public class ShowHarpoon extends AnAction {
         }
         
         var text = stringBuilder.toString().trim();
-        dialog = new HarpoonDialog(text);
+        dialog = new HarpoonDialog(text,project);
         var result = dialog.showAndGet();
         if (text.equals(dialog.editorTextField.getText().trim())) {
             if(result) {
