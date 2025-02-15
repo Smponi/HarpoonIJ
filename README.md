@@ -22,6 +22,8 @@ HarpoonIJ is a port of the NeoVim Extension [Harpoon](https://github.com/ThePrim
 - `GotoHarpoon[1-5]`: Navigates to the file saved at the specified index.
 - `SetHarpoon[1-5]`: Assigns the current file to a specific index.
 - `AddToHarpoon`: Adds the current file to the first available empty index.
+- `CycleNextFile`: Opens the next file in the Harpoon list.
+- `CyclePreviousFile`: Opens the previous file in the Harpoon list.
 
 ## Configuration
 
@@ -31,6 +33,7 @@ You can customize HarpoonIJ to better fit your workflow through the following se
 - **Popup Height**: Adjust the height of the popup dialog.
 - **Popup Font Size**: Set the font size for text within the popup dialog.
 - **Map Enter to Select Item in Dialog**: If you have IdeaVim installed, enabling this will allow you to select an item in the dialog by pressing Enter.
+- **Path Levels to Show**: Set the number of levels of the path to show in the popup dialog. 0 means show the full path.
 
 To access these settings, navigate to `File > Settings > Tools > HarpoonIJ Settings`.
 
@@ -53,3 +56,7 @@ nmap <C-s> :action GotoHarpoon4<cr>
 
 nmap <C-e> :action ShowHarpoon<cr>
 nmap <C-a> :action AddToHarpoon<cr>
+
+nmap <C-l> :action CycleNextFile<cr>
+nmap <C-h> :action CyclePreviousFile<cr>
+```

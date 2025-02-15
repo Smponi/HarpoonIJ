@@ -34,6 +34,9 @@
                 id="ca.alexgirard.harpoonIJ.AppSettingsConfigurable"
                 displayName="HarpoonIJ Settings"/>
         <applicationService serviceImplementation="ca.alexgirard.harpoonIJ.AppSettingsState"/>
+        <notificationGroup id="Harpoon Notifications" 
+                          displayType="BALLOON"
+                          key="harpoon.notifications"/>
     </extensions>
 
     <actions>
@@ -95,6 +98,20 @@
         </action>
         <action id="AddToHarpoon" class="ca.alexgirard.harpoonIJ.AddToHarpoonAction"
                 text="Add File to an Empty Harpoon Slot">
+            <add-to-group group-id="ca.alexgirard.harpoonIJ.mainGroup"/>
+        </action>
+        <action id="CycleNextFile"
+                class="ca.alexgirard.harpoonIJ.CycleNextHarpoonAction" 
+                text="Cycle to Next Harpoon File" 
+                description="Opens the next file in the Harpoon list">
+            <keyboard-shortcut keymap="$default" first-keystroke="alt shift PERIOD"/>
+            <add-to-group group-id="ca.alexgirard.harpoonIJ.mainGroup"/>
+        </action>
+        <action id="CyclePreviousFile"
+                class="ca.alexgirard.harpoonIJ.CyclePreviousHarpoonAction" 
+                text="Cycle to Previous Harpoon File" 
+                description="Opens the previous file in the Harpoon list">
+            <keyboard-shortcut keymap="$default" first-keystroke="alt shift COMMA"/>
             <add-to-group group-id="ca.alexgirard.harpoonIJ.mainGroup"/>
         </action>
     </actions>
